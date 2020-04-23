@@ -384,8 +384,6 @@ static TWTRTwitter *sharedTwitter;
 	// UIApplicationOpenURLOptionsSourceApplicationKey is nil if it's not one of our app that asks
 	// us to open a URL, so we can't do this anymore and we have to try them sequentially.
     if (![self.mobileSSO processRedirectURL:url]) {
-        [self.mobileSSO processRedirectURL:url];
-    } else {
         BOOL isTokenValid = [self.mobileSSO verifyOauthTokenResponsefromURL:url];
         if (isTokenValid) {
             // If it wasn't a Mobile SSO redirect, try to handle as
