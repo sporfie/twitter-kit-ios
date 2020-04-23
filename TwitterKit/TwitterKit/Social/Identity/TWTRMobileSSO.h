@@ -63,9 +63,9 @@ typedef void (^TWTRMobileSSOCompletion)(BOOL twitterAppInstalled);
 - (BOOL)isWebWithSourceApplication:(NSString *)sourceApplication;
 
 /**
- *  Triggers an error completion when invalid source is detected
+ *  Triggers an error completion when invalid token is detected
  */
-- (void)triggerInvalidSourceError;
+- (void)triggerInvalidTokenError;
 
 /**
  *  Verifies if the token embedded in the url is the same one received by oauth/request_token.

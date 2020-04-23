@@ -30,6 +30,11 @@
     return [[NSError alloc] initWithDomain:TWTRLogInErrorDomain code:TWTRLogInErrorCodeFailed userInfo:@{NSLocalizedDescriptionKey: @"Authentication was made from an invalid application."}];
 }
 
++ (NSError *)invalidTokenError
+{
+    return [[NSError alloc] initWithDomain:TWTRLogInErrorDomain code:TWTRLogInErrorCodeFailed userInfo:@{NSLocalizedDescriptionKey: @"Authentication failed."}];
+}
+
 + (NSError *)noTwitterAppError
 {
     return [[NSError alloc] initWithDomain:TWTRLogInErrorDomain code:TWTRLoginErrorNoTwitterApp userInfo:@{NSLocalizedDescriptionKey: @"No Twitter App installed. Unable to perform Mobile SSO login flow."}];

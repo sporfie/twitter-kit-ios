@@ -74,10 +74,10 @@
     return [sourceApplication hasPrefix:@"com.apple"] || [sourceApplication isEqualToString:bundleID];
 }
 
-- (void)triggerInvalidSourceError
+- (void)triggerInvalidTokenError
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.completion(nil, [TWTRErrors invalidSourceApplicationError]);
+        self.completion(nil, [TWTRErrors invalidTokenError]);
     });
 }
 

@@ -27,6 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSError *)mobileSSOCancelError;
 
++ (NSError *)invalidTokenError;
+
 + (NSError *)invalidSourceApplicationError;
 
 + (NSError *)noTwitterAppError;
