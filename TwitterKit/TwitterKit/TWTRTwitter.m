@@ -382,16 +382,19 @@ static TWTRTwitter *sharedTwitter;
 	// This function used to look at UIApplicationOpenURLOptionsSourceApplicationKey to figure out
 	// who is calling us with that API: the twitter app or an apple app or whatever, but these days,
 	// UIApplicationOpenURLOptionsSourceApplicationKey is nil if it's not one of our app that asks
-	// us to open a URL, so we can't do this anymore.
-	BOOL isTokenValid = [self.mobileSSO verifyOauthTokenResponsefromURL:url];
-	if (isTokenValid) {
-		// If it wasn't a Mobile SSO redirect, try to handle as
-		// SFSafariViewController redirect
-		return [self.webAuthenticationFlow resumeAuthenticationWithRedirectURL:url];
-	} else {
-		[self.mobileSSO triggerInvalidTokenError];
-	}
-	
+	// us to open a URL, so we can't do this anymore and we have to try them sequentially.
+    if (![self.mobileSSO processRedirectURL:url]) {
+        [self.mobileSSO processRedirectURL:url];
+    } else {
+        BOOL isTokenValid = [self.mobileSSO verifyOauthTokenResponsefromURL:url];
+        if (isTokenValid) {
+            // If it wasn't a Mobile SSO redirect, try to handle as
+            // SFSafariViewController redirect
+            return [self.webAuthenticationFlow resumeAuthenticationWithRedirectURL:url];
+        } else {
+			[self.mobileSSO triggerInvalidTokenError];
+		}
+    }
     return NO;
 }
 
