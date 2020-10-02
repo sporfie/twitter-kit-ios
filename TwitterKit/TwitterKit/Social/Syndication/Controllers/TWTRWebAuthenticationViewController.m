@@ -102,7 +102,8 @@
         @strongify(self)[self failWithError:error];
     };
 
-    webVC.shouldStartLoadWithRequest = ^BOOL(UIViewController *controller, NSURLRequest *request, UIWebViewNavigationType navType) {
+	// That will never be called now that we're using WKWebView
+    webVC.shouldStartLoadWithRequest = ^BOOL(UIViewController *controller, NSURLRequest *request) {
         @strongify(self) NSURL *URL = request.URL;
         if ([TWTRSDKScheme isEqualToString:URL.scheme] && [TWTRSDKRedirectHost isEqualToString:URL.host]) {
             [self handleTwitterRedirectRequest:request];

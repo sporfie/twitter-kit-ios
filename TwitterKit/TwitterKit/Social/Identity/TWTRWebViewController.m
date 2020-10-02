@@ -17,10 +17,11 @@
 
 #import "TWTRWebViewController.h"
 #import <TwitterCore/TWTRAuthenticationConstants.h>
+#import <WebKit/WebKit.h>
 
-@interface TWTRWebViewController () <UIWebViewDelegate>
+@interface TWTRWebViewController () <WKUIDelegate>
 
-@property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, assign) BOOL showCancelButton;
 @property (nonatomic, copy) TWTRWebViewControllerCancelCompletion cancelCompletion;
 
@@ -65,34 +66,9 @@
 
 - (void)loadView
 {
-    [self setWebView:[[UIWebView alloc] init]];
-    [[self webView] setScalesPageToFit:YES];
-    [[self webView] setDelegate:self];
+    [self setWebView:[[WKWebView alloc] init]];
+    [[self webView] setUIDelegate:self];
     [self setView:[self webView]];
-}
-
-#pragma mark - UIWebview delegate
-
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-{
-    if (![self whitelistedDomain:request]) {
-        // Open in Safari if request is not whitelisted
-        NSLog(@"Opening link in Safari browser, as the host is not whitelisted: %@", request.URL);
-        [[UIApplication sharedApplication] openURL:request.URL];
-        return NO;
-    }
-    if ([self shouldStartLoadWithRequest]) {
-        return [self shouldStartLoadWithRequest](self, request, navigationType);
-    }
-    return YES;
-}
-
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
-{
-    if (self.errorHandler) {
-        self.errorHandler(error);
-        self.errorHandler = nil;
-    }
 }
 
 #pragma mark - Internal methods
